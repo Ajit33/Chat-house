@@ -8,7 +8,8 @@ interface messageProps extends Document {
     content:string,
     timeStamp:Date,
     roomId?:string,
-    upvote:number
+    upvote?:number,
+    reciver?:string,
 }
 
 const messageSchema= new mongoose.Schema<messageProps>({
@@ -16,7 +17,8 @@ const messageSchema= new mongoose.Schema<messageProps>({
    content:{type:String, required:true},
    timeStamp:{type:Date,default:Date.now()},
    roomId:{type:String, default:null},
-   upvote:{type:Number,default:0}
+   upvote:{type:Number,default:0},
+   reciver:{type:String,default:null}
 })
 
 export const message=mongoose.model<messageProps>("message",messageSchema)

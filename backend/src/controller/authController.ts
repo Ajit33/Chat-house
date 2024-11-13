@@ -65,9 +65,11 @@ import jwt from"jsonwebtoken"
       const token = jwt.sign({ _id: user._id}, process.env.JWT_SECRET!, {
           expiresIn: process.env.JWT_EXPIRE,
       });  
+      const webSocketURL = process.env.WEBSOCKET_URL || "ws://localhost:3000";
       res.cookie("token", token, { httpOnly: true,secure:true }).status(200).json({
         message: "Sign in successfully!",
         data: userData,
+        webSocketURL
       });
    } catch (error) {
     res.status(400).json({

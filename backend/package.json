@@ -20,6 +20,7 @@
     "@types/express": "^5.0.0",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/mongoose": "^5.11.96",
+    "@types/websocket": "^1.0.10",
     "@types/ws": "^8.5.13",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
@@ -28,6 +29,7 @@
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.8.1",
+    "websocket": "^1.0.35",
     "ws": "^8.18.0",
     "zod": "^3.23.8"
   }
