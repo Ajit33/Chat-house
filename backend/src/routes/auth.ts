@@ -1,10 +1,10 @@
 import express from "express"
-import { signupController } from "../controller/authControoler"
+import { signoutController, signupController, sininController } from "../controller/authControoler"
 
 const route=express.Router()
 
 route.post("/signup",signupController)
-route.post("/signin")
-route.get("/signout")
+route.post("/signin" ,sininController)
+route.get("/signout",signoutController)
 
 export default route;
