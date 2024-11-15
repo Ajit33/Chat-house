@@ -13,7 +13,7 @@ interface messageProps extends Document {
 }
 
 const messageSchema= new mongoose.Schema<messageProps>({
-   senderId:{type:String, required:true},
+    senderId:{type:String, required:true},
    content:{type:String, required:true},
    timeStamp:{type:Date,default:Date.now()},
    roomId:{type:String, default:null},
