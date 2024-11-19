@@ -11,6 +11,8 @@ import { OfflineMessage } from "./model/OfflineMessage";
 import { saveofflineMessages } from "./controller/messageController";
 import { room } from "./model/RoomModel";
 import { set } from "mongoose";
+import messageEmiter from "./lib/event";
+import cookieParser from "cookie-parser";
 const app = express();
 app.use(express.json());
 app.use(
@@ -19,7 +21,7 @@ app.use(
   })
 );
 dotenv.config();
-
+app.use(cookieParser())
 const port = process.env.PORT || 3000;
 
 app.use("/api/v1", V1Routes);
@@ -28,7 +30,39 @@ app.get("/ping", (req, res) => {
     msg: "hello ping",
   });
 });
-
+messageEmiter.on("newMessage", async ({ senderId, receiverId, roomId, content }) => {
+  if (receiverId) {
+    // Handle one-to-one message
+    const receiverSocket = activeUsers.get(receiverId);
+    if (receiverSocket) {
+      receiverSocket.send(
+        JSON.stringify({
+          type: "one-to-one",
+          senderId,
+          content,
+        })
+      );
+    } else {
+      // Save as offline message
+      await saveofflineMessages(senderId, receiverId, content);
+      console.log(`User ${receiverId} is offline, message saved.`);
+    }
+  } else if (roomId) {
+    // Handle group message
+    const roomMembers = activeGroups.get(roomId);
+    if (roomMembers) {
+      for (const memberSocket of roomMembers) {
+        memberSocket.send(
+          JSON.stringify({
+            type: "group-message",
+            senderId,
+            content,
+          })
+        );
+      }
+    }
+  }
+});
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
 
