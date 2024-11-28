@@ -1,15 +1,16 @@
-
-import './App.css'
-import { Button } from './components/ui/button'
-
+import "./App.css";
+import { BrowserRouter as Router,Route,Routes } from "react-router-dom";
+import Signup from "./components/auth/Signup";
+import Signin from "./components/auth/Signin";
 function App() {
-  
-
-  return (
-  <div>
-    <Button className='bg-red-300' onClick={()=>{console.log("hi")}}>click me </Button>
-  </div>
-  )
+  return <div>
+    <Router>
+      <Routes>
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/signin" element={<Signin />} />
+      </Routes>
+    </Router>
+  </div>;
 }
 
-export default App
+export default App;

@@ -22,9 +22,11 @@ import jwt from"jsonwebtoken"
     const hashedPassword= await bcrypt.hash(password,salt)
     const hashedUser=new User({...req.body,password:hashedPassword})
     const createdUser=await hashedUser.save()
+    const websocketUrl=process.env.WEBSOCKET_URL
     res.status(200).json({
         message:"User created sucessfully !",
-        createdUser:createdUser
+        createdUser:createdUser,
+        websocketUrl:websocketUrl
     })
    } catch (error) {
      res.status(500).json({
@@ -36,7 +38,7 @@ import jwt from"jsonwebtoken"
 }
 
 
- export const sininController=async(req:Request,res:Response):Promise<void>=>{
+ export const signinController=async(req:Request,res:Response):Promise<void>=>{
    let user;
    try {
    if(req.body.userName){
